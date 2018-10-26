@@ -13,15 +13,18 @@ export default class CheckoutListScreen extends Component {
   }
   constructor(props) {
     super(props)
+    this.state={
+      user:""
+    }
     this._user()
     .then((val)=>{
-      const u=val;
-      console.log("shit",u);
+      console.log("shit",val);
+      this.state.user=val
     })
   }
   _user=async()=>{
-    const val=await AsyncStorage.getItem('user');
-    console.log(val);
+    var val=await AsyncStorage.getItem('user');
+    val=JSON.parse(val);
     return val;
   }
 

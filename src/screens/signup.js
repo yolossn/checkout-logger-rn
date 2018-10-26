@@ -4,8 +4,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import bgImage from '../loginBackground.jpg';
 import logoImage from '../icon.png';
+import url from "../../index";
 
-const url="http://104.196.11.112:8080";
 
 export default class SignupScreen extends Component {
     constructor(props) {
@@ -26,6 +26,7 @@ export default class SignupScreen extends Component {
         }
     }
     loginAuth = () => {
+        console.log(this.url);
         if (this.state.username !== null && this.state.password !== null && this.state.cpassword !== null) {
             var re = /\S+@\S+\.\S+./;
             if (!re.test(this.state.email)) {
@@ -56,26 +57,6 @@ export default class SignupScreen extends Component {
                         return Alert.alert("Account Already Exists", "Account Already Exist. Forgot Password ?", [{ text: 'Ok', onPress: () => console.log() }])
                         console.log("ERROR", err);
                     })
-                // fetch("http://104.196.11.112:8080/api/signup",{
-                //     body:form,
-                //     // body:formBody,
-                //     method:"POST",
-                //     headers:{
-                //         'Content-Type': 'application/json'
-                //     }
-                // })
-                //     .then(resp=>{
-                //         console.log(resp);
-                //         if(resp.message==="Created Account")
-                //             this.props.navigation.navigate('Login')
-                //         else if (resp.message==="Account with that email address already exists")
-                //         {
-                //             return Alert.alert("Account Already Exists","Account Already Exist. Forgot Password ?",[{text:'Ok',onPress:()=>console.log()}])
-                //         }
-                //     })
-                //     .catch(err=>{
-                //         console.log("ERROR",err);
-                //     })
             }
             else
                 Alert.alert("Password Mismatch", "Both the passwords must match", [{ text: 'Ok', onPress: () => console.log() }])

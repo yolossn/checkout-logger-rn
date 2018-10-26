@@ -86,7 +86,7 @@ const AppStackNav=createStackNavigator({
       }
     })
   }
-})
+},{initialRouteName:'Main'})
 
 const styles = StyleSheet.create({
   

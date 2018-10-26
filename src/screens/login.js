@@ -21,16 +21,12 @@ export default class LoginScreen extends Component{
     async storeUser(data) {
         try {
             console.log("storing",data);
-            AsyncStorage.setItem("user", data)
-            .then(()=>{
-                AsyncStorage.getItem("user")
-                .then((val)=>{console.log("val is",val);})
-                .catch((err)=>{console.log("error retrive",err);})
-            })
-            .catch((err)=>{console.log("error in stroee",err);})
-            
+            await AsyncStorage.setItem("user", JSON.stringify(data))
+            // await AsyncStorage.setItem("pic",data.p)
+            // const val=await AsyncStorage.getItem("user");
+            // console.log(JSON.parse(val));
         }
-        catch (error) {
+        catch (error) {    
             console.log(error);
         }
     }
@@ -51,7 +47,7 @@ export default class LoginScreen extends Component{
             .then(resp=>{
                 if (resp.data.message === "Success"){
                     console.log(resp.data);
-                    this.storeUser(resp.data.user,)
+                    this.storeUser(resp.data.user)
                     this.props.navigation.navigate('Main')}
                 })
             .catch(err=>{console.log(err);
