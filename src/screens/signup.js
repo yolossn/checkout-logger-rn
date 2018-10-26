@@ -52,7 +52,7 @@ export default class SignupScreen extends Component {
                         }
                     })
                     .catch(err => {
-                        if (err.resp.data.message==="Account with that email address already exists")
+                        if (err.response.data.message==="Account with that email address already exists")
                         return Alert.alert("Account Already Exists", "Account Already Exist. Forgot Password ?", [{ text: 'Ok', onPress: () => console.log() }])
                         console.log("ERROR", err);
                     })

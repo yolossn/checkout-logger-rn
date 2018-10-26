@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View,SafeAreaView} from 'react-native';
+import {Platform, StyleSheet,Image,Text, View,SafeAreaView} from 'react-native';
 
 export default class ProfileScreen extends Component {
+
     render() {
       return (
         <View >
         <View style={styles.view}>
           <View><Text style={styles.title}>Profile</Text></View>
+          {/* <Image source/> */}
         </View>
         </View>
       );

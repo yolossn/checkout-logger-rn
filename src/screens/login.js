@@ -20,7 +20,15 @@ export default class LoginScreen extends Component{
     }
     async storeUser(data) {
         try {
-            await AsyncStorage.setItem("user", data);
+            console.log("storing",data);
+            AsyncStorage.setItem("user", data)
+            .then(()=>{
+                AsyncStorage.getItem("user")
+                .then((val)=>{console.log("val is",val);})
+                .catch((err)=>{console.log("error retrive",err);})
+            })
+            .catch((err)=>{console.log("error in stroee",err);})
+            
         }
         catch (error) {
             console.log(error);
@@ -41,9 +49,10 @@ export default class LoginScreen extends Component{
                 password:this.state.password
             })
             .then(resp=>{
-                if (resp.data.message === "Success")
-                    this.storeUser(resp.data.message.use,)
-                    this.props.navigation.navigate('Main')
+                if (resp.data.message === "Success"){
+                    console.log(resp.data);
+                    this.storeUser(resp.data.user,)
+                    this.props.navigation.navigate('Main')}
                 })
             .catch(err=>{console.log(err);
                 if (err.response.data.message==="Oops! Worng Password.")
