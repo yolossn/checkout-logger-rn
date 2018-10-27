@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dimensions, Image, TouchableOpacity, Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
+import { AsyncStorage,Dimensions, Image, TouchableOpacity, Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
 import axios from "axios";
 import url from "../../index";
 
@@ -14,12 +14,54 @@ export default class NewCheckout extends Component {
     }
     constructor(props) {
         super(props);
+        this.state={
+            id:""
+        }
+        this._user()
+        .then((val)=>{
+          console.log("shit",val);
+          this.setState({
+            id:val,
+          })
+        })
+        .catch(err=>{
+            console.log(err);
+        });
         console.log('newcheckout');
     }
+
+    _user=async()=>{
+    var val=await AsyncStorage.getItem('_id');
+    // val=JSON.parse(val);
+    return val;
+    }
+
     postImage = (uri) => {
         console.log("triggered");
-        axios.post(url+"/checkout-new",{
-            "checkout":uri
+        const photo={
+            uri:uri,
+            type:"image/jpeg",
+            name:"photo.jpg"
+        }
+        console.log(photo);
+        const form = new FormData();
+        form.append("checkout",photo);
+        form.append("_id",this.state.id);
+        fetch(url+"/api/checkout-new",{
+        body:form,
+        method:"POST",
+        // checkout:photo,
+        // _id:this.state.id,
+        headers:{
+            "Content-Type": "multipart/form-data", 
+        }
+        })
+        .then(resp=>{
+            console.log(resp);
+        })
+        .catch(err=>{
+            console.log(err);
+            console.log(err.response);
         })
     }
 

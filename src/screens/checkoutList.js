@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import {AsyncStorage,Image, PixelRatio, Dimensions, TouchableOpacity, Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
+import axios from "axios";
 import Icon from 'react-native-vector-icons/Ionicons';
 import ImagePicker from 'react-native-image-picker';
 var RNFS = require('react-native-fs');
 //components
 import CheckoutItem from '../components/checkoutItem';
 // import CheckoutDetail from '../components/checkoutDetail';
+
+import url from "../../index";
 
 export default class CheckoutListScreen extends Component {
   static navigationOptions = {
@@ -14,21 +17,40 @@ export default class CheckoutListScreen extends Component {
   constructor(props) {
     super(props)
     this.state={
-      user:""
+      id:"",
+      cData:"",
     }
     this._user()
     .then((val)=>{
       console.log("shit",val);
-      this.state.user=val
+      this.setState({
+        id:val,
+      })
+      this.getCheckout()
     })
   }
   _user=async()=>{
-    var val=await AsyncStorage.getItem('user');
-    val=JSON.parse(val);
+    var val=await AsyncStorage.getItem('_id');
+    // val=JSON.parse(val);
     return val;
   }
 
-  newCheckout = () => {
+  getCheckout=() =>{
+    console.log("retrive checkouts using id:",this.state.id);
+    axios.get(url+"/api/checkout-all",{
+      params:{_id:this.state.id},
+      // _id:this.state.id,
+      // body:{_id:this.state.id},
+    }).then((val)=>{
+      console.log(val);
+    })
+    .catch(err=>{
+      console.log(err);
+      console.log(err.response);
+    })
+  }
+  
+    newCheckout = () => {
     const options = {
       title: 'New Checkout',
       takePhotoButtonTitle: 'Capture Bill',
