@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Dimensions,TouchableOpacity,StyleSheet,Image,Text, View,ScrollView} from 'react-native';
+import {AsyncStorage,Dimensions,TouchableOpacity,StyleSheet,Image,Text, View,ScrollView} from 'react-native';
 
 export default class ProfileScreen extends Component {
     constructor(props)
@@ -14,8 +14,13 @@ export default class ProfileScreen extends Component {
       }
       this._user()
       .then(val=>{
-        console.log(val);
-        // this.state.uname=val.
+        // console.log(val);
+        console.log("updatinf profile info");
+        this.setState({
+        uname:val.profile.name,
+        email:val.email,
+        imurl:val.profile.picture,
+        })
       })
     }
     _user=async()=>{

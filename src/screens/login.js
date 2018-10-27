@@ -22,6 +22,7 @@ export default class LoginScreen extends Component{
         try {
             console.log("storing",data);
             await AsyncStorage.setItem("user", JSON.stringify(data))
+            await AsyncStorage.setItem("_id",data._id)
             // await AsyncStorage.setItem("pic",data.p)
             // const val=await AsyncStorage.getItem("user");
             // console.log(JSON.parse(val));
@@ -39,6 +40,7 @@ export default class LoginScreen extends Component{
    loginAuth=()=>{
         if(this.state.username!==null && this.state.password!==null)
         {
+            console.log("trying to login");
             axios.post(url+"/api/login",{
                 email:this.state.username,
                 username:this.state.username,
@@ -46,6 +48,7 @@ export default class LoginScreen extends Component{
             })
             .then(resp=>{
                 if (resp.data.message === "Success"){
+                    console.log(resp)
                     console.log(resp.data);
                     this.storeUser(resp.data.user)
                     this.props.navigation.navigate('Main')}

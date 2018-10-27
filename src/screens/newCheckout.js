@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Dimensions, Image, TouchableOpacity, Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
+import axios from "axios";
+import url from "../../index";
 
 var RNFS = require('react-native-fs');
 
@@ -16,25 +18,9 @@ export default class NewCheckout extends Component {
     }
     postImage = (uri) => {
         console.log("triggered");
-        const formData = new FormData;
-        const photo = {
-            uri: uri,
-            type: "image/jpeg",
-            name: "photo.jpg"
-        };
-        const form = new FormData();
-        form.append("checkout", photo);
-        fetch("http://192.168.0.102:8080/checkout/upload", {
-            body: form,
-            method: "POST",
-            headers: {
-                "Content-Type": "multipart/form-data",
-            }
+        axios.post(url+"/checkout-new",{
+            "checkout":uri
         })
-            .then(response => { console.log(response); response.json() })
-            .catch(error => {
-                console.log("ERROR ", error);
-            })
     }
 
     discardFile = (path) => {
