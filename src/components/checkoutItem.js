@@ -7,7 +7,7 @@ const CheckoutItem =(props) =>(
         <Image style={styles.listImage} source={props.imURL}/>
         <View style={styles.textPos}>
             <View style={{flexDirection:"row"}}>
-                <Text>ID:{props.id}</Text>
+                <Text>ID:{props.id.slice(0,5)}</Text>
                 <Text style={{paddingLeft:25}}>Title:{props.title}</Text>
             </View>
             <Text style={styles.testTot}>Total:{props.total}</Text>

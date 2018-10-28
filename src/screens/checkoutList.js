@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {AsyncStorage,Image, PixelRatio, Dimensions, TouchableOpacity, Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
+import {AsyncStorage,Image, FlatList, Dimensions, TouchableOpacity, Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
 import axios from "axios";
 import Icon from 'react-native-vector-icons/Ionicons';
 import ImagePicker from 'react-native-image-picker';
@@ -13,7 +13,7 @@ import url from "../../index";
 export default class CheckoutListScreen extends Component {
   static navigationOptions = {
     header: null,
-  }
+    }
   constructor(props) {
     super(props)
     this.state={
@@ -25,6 +25,7 @@ export default class CheckoutListScreen extends Component {
       console.log("shit",val);
       this.setState({
         id:val,
+        checkouts:""
       })
       this.getCheckout()
     })
@@ -43,6 +44,9 @@ export default class CheckoutListScreen extends Component {
       // body:{_id:this.state.id},
     }).then((val)=>{
       console.log(val);
+      this.setState({
+        checkouts:val.data.checkouts,
+      })
     })
     .catch(err=>{
       console.log(err);
@@ -88,24 +92,9 @@ export default class CheckoutListScreen extends Component {
     //this.props.navigation.navigate('NewCheckout');
   }
 
-  // const checkoutList = props=>{
-  //   return(
-  //     < FlatList
-  //       data={props.checkouts}
-  //       renderItem={ (info) =>(
-  //         <CheckoutItem 
-  //         id={4} 
-  //         title={"Dominos"} 
-  //         total={150} 
-  //         imURL={{ uri: "https://user-images.githubusercontent.com/5842874/37030334-921b1d5a-2175-11e8-8736-5be0cc4ff777.png" }} 
-  //         onItemPressed = {()=>props.onItemSelected(info.item.id)}
-  //       />
-  //         )
-  //       }
-  //       />
-
-  //   );
-  // }
+  // const listCheckout =(props) =>({
+  //   <>
+  // })
 
   render() {
     return (
@@ -113,7 +102,14 @@ export default class CheckoutListScreen extends Component {
         <View style={styles.view}>
           <View><Text style={styles.title}>Checkouts</Text></View>
         </View>
-        <ScrollView>
+        <FlatList 
+        data={this.state.checkouts}
+        renderItem={(x)=>
+        <CheckoutItem id={x.item.bill_id} title={x.item.title} total={x.item.total} imURL={{ uri: x.item.bill_picture }} />          
+        }
+        keyExtractor ={(item,index)=>index.toString()}
+        />
+        {/* <ScrollView>
           <CheckoutItem id={4} title={"Dominos"} total={150} imURL={{ uri: "https://user-images.githubusercontent.com/5842874/37030334-921b1d5a-2175-11e8-8736-5be0cc4ff777.png" }} />          
           <CheckoutItem id={4} title={"Dominos"} total={150} imURL={{ uri: "https://user-images.githubusercontent.com/5842874/37030334-921b1d5a-2175-11e8-8736-5be0cc4ff777.png" }} />
           <CheckoutItem id={4} title={"Dominos"} total={150} imURL={{ uri: "https://user-images.githubusercontent.com/5842874/37030334-921b1d5a-2175-11e8-8736-5be0cc4ff777.png" }} />
@@ -126,7 +122,7 @@ export default class CheckoutListScreen extends Component {
           <CheckoutItem id={4} title={"Dominos"} total={150} imURL={{ uri: "https://user-images.githubusercontent.com/5842874/37030334-921b1d5a-2175-11e8-8736-5be0cc4ff777.png" }} />
           <CheckoutItem id={4} title={"Dominos"} total={150} imURL={{ uri: "https://user-images.githubusercontent.com/5842874/37030334-921b1d5a-2175-11e8-8736-5be0cc4ff777.png" }} />
 
-        </ScrollView>
+        </ScrollView> */}
         <TouchableOpacity style={styles.btnNewCheckout} onPress={this.newCheckout.bind(this)}>
           <Icon style={styles.inputIcon} name={'ios-add'} size={40} color={'rgba(255,255,255,0.7)'} />
         </TouchableOpacity>

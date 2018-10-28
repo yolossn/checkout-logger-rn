@@ -18,6 +18,7 @@ import NewCheckout from './src/screens/newCheckout';
 import DashboardScreen from './src/screens/dashboard';
 import ProfileScreen from './src/screens/profile';
 import CheckoutListScreen from './src/screens/checkoutList';
+import editCheckoutScreen from './src/screens/editCheckout';
 
 export default class App extends Component{
   render(){
@@ -39,6 +40,9 @@ const AppStackNav=createStackNavigator({
   },
   NewCheck:{
     screen:NewCheckout
+  },
+  editCheck:{
+    screen:editCheckoutScreen
   },
   Main:{
     navigationOptions:{
@@ -86,8 +90,8 @@ const AppStackNav=createStackNavigator({
       }
     })
   }
-})
-// },{initialRouteName:'Main'})
+// })
+},{initialRouteName:'editCheck'})
 
 const styles = StyleSheet.create({
   
