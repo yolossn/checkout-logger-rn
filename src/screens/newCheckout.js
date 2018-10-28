@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AsyncStorage,Dimensions, Image, TouchableOpacity, Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
+import { AsyncStorage,Alert,Dimensions, Image, TouchableOpacity, Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
 import axios from "axios";
 import url from "../../index";
 
@@ -57,12 +57,24 @@ export default class NewCheckout extends Component {
         }
         })
         .then(resp=>{
-            console.log(resp);
+            console.log("test warer",resp);
+            data=JSON.parse(resp._bodyText)
+            console.log(data.message)
+            if (data.message==="Uploaded")
+            {
+                console.log("new id",data.checkout._id);
+                this.props.navigation.navigate('editCheck',{c_id:data.checkout._id,user:this.state.id});
+            }
+            else if(data.message==="Sorry, There's some error in decoding the text. Try to upload a clear Image")
+                 Alert.alert("Please upload a clear image of a bill", [{ text: 'Ok', onPress: () => this.props.navigation.navigate('Main')}])
         })
         .catch(err=>{
             console.log(err);
-            console.log(err.response);
-        })
+            response=JSON.parse(err._bodyText);
+            console.log("err resp",response);
+            if(response.message==="Sorry, There's some error in decoding the text. Try to upload a clear Image")
+                Alert.alert("Please upload a clear image of a bill", [{ text: 'Ok', onPress: () => this.props.navigation.navigate('Main')}])
+        }
     }
 
     discardFile = (path) => {

@@ -90,8 +90,8 @@ const AppStackNav=createStackNavigator({
       }
     })
   }
-// })
-},{initialRouteName:'editCheck'})
+})
+// },{initialRouteName:'editCheck'})
 
 const styles = StyleSheet.create({
   
