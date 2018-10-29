@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {AsyncStorage,TextInput,Button,Image, FlatList, Dimensions, TouchableOpacity, Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
+import {ActivityIndicator,AsyncStorage,TextInput,Button,Image, FlatList, Dimensions, TouchableOpacity, Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import axios from "axios";
 import url from "../../index";
@@ -23,6 +23,7 @@ export default class editCheckoutScreen extends Component{
             loc:"",
             uri:"",
             date:"",
+            load:true,
         }
     console.log("edit id",this.props.navigation.state.params.c_id);
     this.getCheckout();
@@ -47,7 +48,8 @@ export default class editCheckoutScreen extends Component{
                     desc:String(resp.data.checkout.description),
                     loc:String(resp.data.checkout.location),
                     uri:String(resp.data.checkout.bill_picture),
-                    date:String(resp.data.checkout.data)
+                    date:String(resp.data.checkout.data),
+                    load:false
                 })
             }
         })
@@ -89,42 +91,53 @@ export default class editCheckoutScreen extends Component{
       this._hideDateTimePicker();
     };
 
+    loadForm=()=>{
+        if(this.state.load)
+        {
+            // return(<Text>Loading</Text>)
+            return(<ActivityIndicator size="large" color="orange" />)
+
+        }
+        else{
+            return(<ScrollView>
+                <Text style={styles.label}>Title: </Text>
+                <TextInput style={styles.input}
+                onChangeText={(text) => this.setState({title:text})}
+                value={this.state.title}/>
+                <Image style={styles.img} source={{uri:this.state.uri}}/>
+        
+                <Text style={styles.label}> Tax: </Text>
+                <TextInput style={styles.input} keyboardType={"numeric"}
+                onChangeText={(text) => this.setState({tax:text})}
+                value={this.state.tax}/>
+                <Text style={styles.label}> Total: </Text>
+                <TextInput style={styles.input} keyboardType={"numeric"}
+                onChangeText={(text) => this.setState({total:text})}
+                value={this.state.total}/>
+                <Text style={styles.label}>Date:{this.state.date}</Text>
+                <DateTimePicker
+                  isVisible={this.state.isDateTimePickerVisible}
+                  onConfirm={this._handleDatePicked}
+                  onCancel={this._hideDateTimePicker}
+                />
+                {/* <Button style={styles.btnLogin} onPress={()=>{this._showDateTimePicker}} title="Edit Date" color="orange"/> */}
+                <TouchableOpacity style={styles.btnLogin} onPress={this._showDateTimePicker}>
+                       <Text style={styles.text}>Edit Date</Text>
+                </TouchableOpacity> 
+                <Text style={styles.label} > Description </Text>
+                <TextInput style={styles.input} editable={true} numberOfLines={4}
+                onChangeText={(text) => this.setState({desc:text})}
+                value={this.state.desc}/>
+                <TouchableOpacity style={styles.btnLogin} onPress={this.submitEdit.bind(this)}>
+                       <Text style={styles.text}>SUBMIT</Text>
+                </TouchableOpacity> 
+                <View style={{height:20}}></View>
+                </ScrollView>)
+        }
+    }
     render(){
         return(
-        <ScrollView>
-        <Text style={styles.label}>Title: </Text>
-        <TextInput style={styles.input}
-        onChangeText={(text) => this.setState({title:text})}
-        value={this.state.title}/>
-        <Image style={styles.img} source={{uri:this.state.uri}}/>
-
-        <Text style={styles.label}> Tax: </Text>
-        <TextInput style={styles.input} keyboardType={"numeric"}
-        onChangeText={(text) => this.setState({tax:text})}
-        value={this.state.tax}/>
-        <Text style={styles.label}> Total: </Text>
-        <TextInput style={styles.input} keyboardType={"numeric"}
-        onChangeText={(text) => this.setState({total:text})}
-        value={this.state.total}/>
-        <Text style={styles.label}>Date:{this.state.date}</Text>
-        <DateTimePicker
-          isVisible={this.state.isDateTimePickerVisible}
-          onConfirm={this._handleDatePicked}
-          onCancel={this._hideDateTimePicker}
-        />
-        {/* <Button style={styles.btnLogin} onPress={()=>{this._showDateTimePicker}} title="Edit Date" color="orange"/> */}
-        <TouchableOpacity style={styles.btnLogin} onPress={this._showDateTimePicker}>
-               <Text style={styles.text}>Edit Date</Text>
-        </TouchableOpacity> 
-        <Text style={styles.label} > Description </Text>
-        <TextInput style={styles.input} editable={true} numberOfLines={4}
-        onChangeText={(text) => this.setState({desc:text})}
-        value={this.state.desc}/>
-        <TouchableOpacity style={styles.btnLogin} onPress={this.submitEdit.bind(this)}>
-               <Text style={styles.text}>SUBMIT</Text>
-        </TouchableOpacity> 
-        <View style={{height:20}}></View>
-        </ScrollView>
+        <View>{this.loadForm()}</View>
         )
     }
 }

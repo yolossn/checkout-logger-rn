@@ -37,7 +37,7 @@ export default class ProfileScreen extends Component {
           <Image style={styles.pImage} source={{uri:this.state.imurl}}/> 
             <Text style={styles.cText}>Username:{this.state.uname}</Text>
             <Text style={styles.cText}>Email:{this.state.email}</Text>
-            <Text style={styles.cText}>Budget:{this.state.budget}</Text>
+            {/* <Text style={styles.cText}>Budget:{this.state.budget}</Text> */}
             {/* <TouchableOpacity style={styles.btn} onPress={()=>{console.log("shit");}}>
                     <Text style={styles.text}>EDIT BUDGET</Text>
             </TouchableOpacity> */}

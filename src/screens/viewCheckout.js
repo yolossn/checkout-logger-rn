@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {AsyncStorage,TextInput,Button,Image, FlatList, Dimensions, TouchableOpacity, Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
+import {ActivityIndicator,AsyncStorage,TextInput,Button,Image, FlatList, Dimensions, TouchableOpacity, Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
 import axios from "axios";
 import url from "../../index";
 
@@ -22,6 +22,7 @@ export default class viewCheckoutScreen extends Component{
             loc:"",
             uri:"",
             date:"",
+            load:true,
         }
     console.log("edit id",this.props.navigation.state.params.c_id);
     this.getCheckout();
@@ -44,7 +45,8 @@ export default class viewCheckoutScreen extends Component{
                     desc:String(resp.data.checkout.description),
                     loc:String(resp.data.checkout.location),
                     uri:String(resp.data.checkout.bill_picture),
-                    date:String(resp.data.checkout.data)
+                    date:String(resp.data.checkout.data),
+                    load:false
                 })
             }
         })
@@ -64,7 +66,8 @@ export default class viewCheckoutScreen extends Component{
             description:this.state.description,
             loc:this.state.location,
             uri:this.state.uri,
-            date:this.state.date
+            date:this.state.date,
+            load:false,
         })
         .then(resp=>{
             console.log("edit req",resp);
@@ -74,32 +77,41 @@ export default class viewCheckoutScreen extends Component{
             console.log(err.response)
         })
     }
+
+    loadForm=()=>{
+        if(this.state.load)
+            return(<ActivityIndicator size="large" color="orange" />)
+        else{
+            return(
+                <ScrollView>
+                <Text style={styles.label}>Title: </Text>
+                <TextInput style={styles.input}
+                onChangeText={(text) => this.setState({title:text})}  editable={false}
+                value={this.state.title}/>
+                <Image style={styles.img} source={{uri:this.state.uri}}/>
+        
+                <Text style={styles.label}> Tax: </Text>
+                <TextInput style={styles.input} keyboardType={"numeric"}  editable={false}
+                onChangeText={(text) => this.setState({tax:text})}
+                value={this.state.tax}/>
+                <Text style={styles.label}> Total: </Text>
+                <TextInput style={styles.input} keyboardType={"numeric"}  editable={false}
+                onChangeText={(text) => this.setState({total:text})}
+                value={this.state.total}/>
+                <Text style={styles.label}>Date:{this.state.date}</Text>
+                <Text style={styles.label} > Description </Text>
+                <TextInput style={styles.input} editable={false} numberOfLines={4}
+                onChangeText={(text) => this.setState({desc:text})}
+                value={this.state.desc}/>
+                </ScrollView>
+            )
+        }
+    }
     render(){
         return(
-        <ScrollView>
-        <Text style={styles.label}>Title: </Text>
-        <TextInput style={styles.input}
-        onChangeText={(text) => this.setState({title:text})}  editable={false}
-        value={this.state.title}/>
-        <Image style={styles.img} source={{uri:this.state.uri}}/>
-
-        <Text style={styles.label}> Tax: </Text>
-        <TextInput style={styles.input} keyboardType={"numeric"}  editable={false}
-        onChangeText={(text) => this.setState({tax:text})}
-        value={this.state.tax}/>
-        <Text style={styles.label}> Total: </Text>
-        <TextInput style={styles.input} keyboardType={"numeric"}  editable={false}
-        onChangeText={(text) => this.setState({total:text})}
-        value={this.state.total}/>
-        <Text style={styles.label}>Date:{this.state.date}</Text>
-        <Text style={styles.label} > Description </Text>
-        <TextInput style={styles.input} editable={false} numberOfLines={4}
-        onChangeText={(text) => this.setState({desc:text})}
-        value={this.state.desc}/>
-        <TouchableOpacity style={styles.btnLogin} onPress={()=>this.props.navigation.navigate('Signup')}>
-               <Text style={styles.text}>SUBMIT</Text>
-        </TouchableOpacity> 
-        </ScrollView>
+            <View>
+                {this.loadForm()}
+            </View>
         )
     }
 }
