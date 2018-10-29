@@ -53,6 +53,15 @@ export default class CheckoutListScreen extends Component {
     .catch(err=>{
       console.log(err);
       console.log(err.response);
+            this.setState({
+          load:false,
+        })
+      if(err.response.data.message=="No checkouts found")
+      {
+        this.setState({
+          load:false,
+        })
+      }
     })
   }
   
@@ -103,11 +112,11 @@ export default class CheckoutListScreen extends Component {
    {
     //  return()
     return(
-    <View style={{height:HEIGHT-300}}> 
+    <View style={{height:HEIGHT-100}}> 
      <ActivityIndicator size="large" color="orange" />
     </View>)
    }
-   else
+   else if(this.state.checkouts!=="")
    {
      return(
 <View>       
@@ -123,6 +132,19 @@ export default class CheckoutListScreen extends Component {
       </TouchableOpacity>
 </View>
      )
+   }
+   else
+   {
+    return(
+    <View>
+    <View style={{height:HEIGHT-100 ,width:WIDTH,alignSelf:"center"}}> 
+    <Text>Oh Snap No checkouts Found</Text>
+   </View>
+           <TouchableOpacity style={styles.btnNewCheckout} onPress={this.newCheckout.bind(this)}>
+           <Icon style={styles.inputIcon} name={'ios-add'} size={40} color={'rgba(255,255,255,0.7)'} />
+         </TouchableOpacity>
+         </View>
+   )
    }
  } 
 
@@ -157,6 +179,7 @@ export default class CheckoutListScreen extends Component {
 }
 
 const { height: HEIGHT } = Dimensions.get('window');
+const {width:WIDTH}=Dimensions.get('window');
 
 const styles = StyleSheet.create(
   {

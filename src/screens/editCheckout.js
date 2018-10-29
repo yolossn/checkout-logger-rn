@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {ActivityIndicator,AsyncStorage,TextInput,Button,Image, FlatList, Dimensions, TouchableOpacity, Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
+import {Alert,ActivityIndicator,AsyncStorage,TextInput,Button,Image, FlatList, Dimensions, TouchableOpacity, Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import axios from "axios";
 import url from "../../index";
@@ -48,7 +48,7 @@ export default class editCheckoutScreen extends Component{
                     desc:String(resp.data.checkout.description),
                     loc:String(resp.data.checkout.location),
                     uri:String(resp.data.checkout.bill_picture),
-                    date:String(resp.data.checkout.data),
+                    date:String(resp.data.checkout.date),
                     load:false
                 })
             }
@@ -73,6 +73,8 @@ export default class editCheckoutScreen extends Component{
         })
         .then(resp=>{
             console.log("edit req",resp);
+            // return(Alert.alert("Updated Checkout", [{ text: 'Ok', onPress: () => {this.props.navigation.navigate('Main')}}]))
+            this.props.navigation.navigate("Main")
         })
         .catch(err=>{
             console.log(err);
@@ -84,7 +86,7 @@ export default class editCheckoutScreen extends Component{
     _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
   
     _handleDatePicked = (sDate) => {
-      console.log('A date has been picked: ', sDate);
+      console.log('A date has been picked: ', sDate,typeof(sDate));
       this.setState({
           date:String(sDate),
       })

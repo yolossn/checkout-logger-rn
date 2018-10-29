@@ -81,7 +81,7 @@ export default class LoginScreen extends Component{
                 <View style={styles.InputContainer}>
                     <Icon style={styles.inputIcon} name={'md-person'} size={28} color={'rgba(255,255,255,0.7)'}/>
                     <TextInput style={styles.input} 
-                        placeholder={'Username'}
+                        placeholder={'Email'}
                         placeholderTextColor={'rgba(255,255,255,0.7)'}
                         underlineColorAndroid={'transparent'} 
                         value={this.state.username}
