@@ -110,6 +110,7 @@ export default class CheckoutListScreen extends Component {
    else
    {
      return(
+<View>       
 <FlatList 
         data={this.state.checkouts}
         renderItem={(x)=>
@@ -120,6 +121,7 @@ export default class CheckoutListScreen extends Component {
         <TouchableOpacity style={styles.btnNewCheckout} onPress={this.newCheckout.bind(this)}>
         <Icon style={styles.inputIcon} name={'ios-add'} size={40} color={'rgba(255,255,255,0.7)'} />
       </TouchableOpacity>
+</View>
      )
    }
  } 
