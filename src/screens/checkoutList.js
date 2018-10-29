@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {AsyncStorage,Image, FlatList, Dimensions, TouchableOpacity, Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
+import {ActivityIndicator, AsyncStorage,Image, FlatList, Dimensions, TouchableOpacity, Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
 import axios from "axios";
 import Icon from 'react-native-vector-icons/Ionicons';
 import ImagePicker from 'react-native-image-picker';
@@ -19,6 +19,7 @@ export default class CheckoutListScreen extends Component {
     this.state={
       id:"",
       cData:"",
+      load:true,
     }
     this._user()
     .then((val)=>{
@@ -46,6 +47,7 @@ export default class CheckoutListScreen extends Component {
       console.log(val);
       this.setState({
         checkouts:val.data.checkouts,
+        load:false,
       })
     })
     .catch(err=>{
@@ -96,21 +98,40 @@ export default class CheckoutListScreen extends Component {
   //   <>
   // })
 
-  
-
-  render() {
-    return (
-      <View >
-        <View style={styles.view}>
-          <View><Text style={styles.title}>Checkouts</Text></View>
-        </View>
-        <FlatList 
+ loadData=()=>{
+   if(this.state.load)
+   {
+    //  return()
+    return(
+    <View style={{height:HEIGHT-300}}> 
+     <ActivityIndicator size="large" color="orange" />
+    </View>)
+   }
+   else
+   {
+     return(
+<FlatList 
         data={this.state.checkouts}
         renderItem={(x)=>
         <CheckoutItem user={this.state.id} nav={this.props.navigation.navigate} id={x.item._id} title={x.item.title} total={x.item.total} imURL={{ uri: x.item.bill_picture }} />          
         }
         keyExtractor ={(item,index)=>index.toString()}
         />
+        <TouchableOpacity style={styles.btnNewCheckout} onPress={this.newCheckout.bind(this)}>
+        <Icon style={styles.inputIcon} name={'ios-add'} size={40} color={'rgba(255,255,255,0.7)'} />
+      </TouchableOpacity>
+     )
+   }
+ } 
+
+  render() {
+    return (
+      <View >
+        <View style={styles.view}>
+          <View><Text style={styles.title}>Checkouts</Text></View>
+          {this.loadData()}
+        </View>
+        
         {/* <ScrollView>
           <CheckoutItem id={4} title={"Dominos"} total={150} imURL={{ uri: "https://user-images.githubusercontent.com/5842874/37030334-921b1d5a-2175-11e8-8736-5be0cc4ff777.png" }} />          
           <CheckoutItem id={4} title={"Dominos"} total={150} imURL={{ uri: "https://user-images.githubusercontent.com/5842874/37030334-921b1d5a-2175-11e8-8736-5be0cc4ff777.png" }} />
@@ -125,9 +146,7 @@ export default class CheckoutListScreen extends Component {
           <CheckoutItem id={4} title={"Dominos"} total={150} imURL={{ uri: "https://user-images.githubusercontent.com/5842874/37030334-921b1d5a-2175-11e8-8736-5be0cc4ff777.png" }} />
 
         </ScrollView> */}
-        <TouchableOpacity style={styles.btnNewCheckout} onPress={this.newCheckout.bind(this)}>
-          <Icon style={styles.inputIcon} name={'ios-add'} size={40} color={'rgba(255,255,255,0.7)'} />
-        </TouchableOpacity>
+
 
       </View>
 

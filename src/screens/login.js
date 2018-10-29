@@ -16,8 +16,8 @@ export default class LoginScreen extends Component{
             press:false,
             // username:null,
             // password:null,
-            username:"aa@aa.aa",
-            password:"a",
+            username:"",
+            password:"",
         }
     }
     async storeUser(data) {

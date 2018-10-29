@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { TouchableHighlight, Button, Dimensions, StyleSheet, Text, View, Image } from 'react-native';
 import {withNavigation} from "react-navigation";
+import axios from "axios";
+import url from "../../index";
 
 
 
@@ -26,7 +28,23 @@ export default class CheckoutItem extends Component {
         }
         console.log("show of", this.state.show);
     }
-
+    delete=()=>{
+        console.log(this.props.user,"\n",this.props.c_id);
+        console.log(this.props);
+        axios.get(url+"/api/checkout-delete",{
+            params:{
+                _id:this.props.user,
+                did:this.props.id,
+            }
+        })
+        .then((resp)=>{
+            console.log(resp);
+        })
+        .catch(err=>{
+            console.log(err);
+            console.log(err.response);
+        })
+    }
     renderOptions = () => {
         if (this.state.show) {
             return(
@@ -34,7 +52,7 @@ export default class CheckoutItem extends Component {
                 <View style={styles.options}>
                     <Button style={styles.bton} title="View" color="orange" onPress={() => {this.props.nav('viewCheck',{user:this.props.user,c_id:this.props.id})}}/>
                     <Button style={styles.bton} title="Edit" color="orange" onPress={() => {this.props.nav('editCheck',{user:this.props.user,c_id:this.props.id})}}/>
-                    <Button style={styles.bton} title="Delete" color="orange" onPress={() => { console.log("Deleting") }} />
+                    <Button style={styles.bton} title="Delete" color="orange" onPress={this.delete} />
                 </View>
 )
         }
