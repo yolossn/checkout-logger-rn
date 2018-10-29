@@ -96,6 +96,8 @@ export default class CheckoutListScreen extends Component {
   //   <>
   // })
 
+  
+
   render() {
     return (
       <View >
@@ -105,7 +107,7 @@ export default class CheckoutListScreen extends Component {
         <FlatList 
         data={this.state.checkouts}
         renderItem={(x)=>
-        <CheckoutItem id={x.item.bill_id} title={x.item.title} total={x.item.total} imURL={{ uri: x.item.bill_picture }} />          
+        <CheckoutItem user={this.state.id} nav={this.props.navigation.navigate} id={x.item._id} title={x.item.title} total={x.item.total} imURL={{ uri: x.item.bill_picture }} />          
         }
         keyExtractor ={(item,index)=>index.toString()}
         />

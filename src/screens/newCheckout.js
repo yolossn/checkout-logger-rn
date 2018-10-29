@@ -74,7 +74,7 @@ export default class NewCheckout extends Component {
             console.log("err resp",response);
             if(response.message==="Sorry, There's some error in decoding the text. Try to upload a clear Image")
                 Alert.alert("Please upload a clear image of a bill", [{ text: 'Ok', onPress: () => this.props.navigation.navigate('Main')}])
-        }
+        })
     }
 
     discardFile = (path) => {

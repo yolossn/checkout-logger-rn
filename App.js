@@ -19,6 +19,7 @@ import DashboardScreen from './src/screens/dashboard';
 import ProfileScreen from './src/screens/profile';
 import CheckoutListScreen from './src/screens/checkoutList';
 import editCheckoutScreen from './src/screens/editCheckout';
+import viewCheckoutScreen from './src/screens/viewCheckout';
 
 export default class App extends Component{
   render(){
@@ -37,6 +38,9 @@ const AppStackNav=createStackNavigator({
   },
   Signup:{
     screen:SignupScreen
+  },
+  viewCheck:{
+    screen:viewCheckoutScreen
   },
   NewCheck:{
     screen:NewCheckout

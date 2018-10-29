@@ -14,8 +14,10 @@ export default class LoginScreen extends Component{
         this.state ={
             showPass:true,
             press:false,
-            username:null,
-            password:null,
+            // username:null,
+            // password:null,
+            username:"aa@aa.aa",
+            password:"a",
         }
     }
     async storeUser(data) {
@@ -82,6 +84,7 @@ export default class LoginScreen extends Component{
                         placeholder={'Username'}
                         placeholderTextColor={'rgba(255,255,255,0.7)'}
                         underlineColorAndroid={'transparent'} 
+                        value={this.state.username}
                         onChangeText={(username)=>this.setState({username})}/>
                 </View>
                 <View style={{height:10}}>
@@ -92,7 +95,8 @@ export default class LoginScreen extends Component{
                         placeholder={'Password'}
                         secureTextEntry={this.state.showPass}
                         placeholderTextColor={'rgba(255,255,255,0.7)'}
-                        underlineColorAndroid={'transparent'} 
+                        underlineColorAndroid={'transparent'}
+                        value={this.state.password}
                         onChangeText={(password)=>this.setState({password})}
                         />
                 <TouchableOpacity style={styles.eyeIcon} onPress={this.showPass.bind(this)}>

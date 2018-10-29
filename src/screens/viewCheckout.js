@@ -5,10 +5,10 @@ import axios from "axios";
 import url from "../../index";
 
 
-export default class editCheckoutScreen extends Component{
+export default class viewCheckoutScreen extends Component{
     static navigationOptions = {
         headerTitleStyle: { alignSelf: 'center',alignContent:'center',width:"100%",color: 'orange',},
-        title: 'Edit Checkout',
+        title: 'View Checkout',
     }
     constructor(props){
         super(props);
@@ -92,22 +92,22 @@ export default class editCheckoutScreen extends Component{
         <ScrollView>
         <Text style={styles.label}>Title: </Text>
         <TextInput style={styles.input}
-        onChangeText={(text) => this.setState({title:text})}
+        onChangeText={(text) => this.setState({title:text})}  editable={false}
         value={this.state.title}/>
         <Image style={styles.img} source={{uri:this.state.uri}}/>
 
         <Text style={styles.label}> Tax: </Text>
-        <TextInput style={styles.input} keyboardType={"numeric"}
+        <TextInput style={styles.input} keyboardType={"numeric"}  editable={false}
         onChangeText={(text) => this.setState({tax:text})}
         value={this.state.tax}/>
         <Text style={styles.label}> Total: </Text>
-        <TextInput style={styles.input} keyboardType={"numeric"}
+        <TextInput style={styles.input} keyboardType={"numeric"}  editable={false}
         onChangeText={(text) => this.setState({total:text})}
         value={this.state.total}/>
         <Text style={styles.label}>Date:{this.state.date}</Text>
         <Button onPress={this._showDateTimePicker} title="Edit Date" color="orange"/>
         <Text style={styles.label} > Description </Text>
-        <TextInput style={styles.input} editable={true} numberOfLines={4}
+        <TextInput style={styles.input} editable={false} numberOfLines={4}
         onChangeText={(text) => this.setState({desc:text})}
         value={this.state.desc}/>
         <TouchableOpacity style={styles.btnLogin} onPress={()=>this.props.navigation.navigate('Signup')}>
