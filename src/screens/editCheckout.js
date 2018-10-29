@@ -28,17 +28,7 @@ export default class editCheckoutScreen extends Component{
     this.getCheckout();
     }
 
-    _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
-
-    _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
-  
-    _handleDatePicked = (sDate) => {
-      console.log('A date has been picked: ', sDate);
-      this.setState({
-          date:sDate,
-      })
-      this._hideDateTimePicker();
-    };
+    
 
     getCheckout = () =>{
         axios.get(url+"/api/checkout",{
@@ -87,6 +77,18 @@ export default class editCheckoutScreen extends Component{
             console.log(err.response)
         })
     }
+    _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+    _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+  
+    _handleDatePicked = (sDate) => {
+      console.log('A date has been picked: ', sDate);
+      this.setState({
+          date:String(sDate),
+      })
+      this._hideDateTimePicker();
+    };
+
     render(){
         return(
         <ScrollView>
@@ -105,14 +107,23 @@ export default class editCheckoutScreen extends Component{
         onChangeText={(text) => this.setState({total:text})}
         value={this.state.total}/>
         <Text style={styles.label}>Date:{this.state.date}</Text>
-        <Button onPress={this._showDateTimePicker} title="Edit Date" color="orange"/>
+        <DateTimePicker
+          isVisible={this.state.isDateTimePickerVisible}
+          onConfirm={this._handleDatePicked}
+          onCancel={this._hideDateTimePicker}
+        />
+        {/* <Button style={styles.btnLogin} onPress={()=>{this._showDateTimePicker}} title="Edit Date" color="orange"/> */}
+        <TouchableOpacity style={styles.btnLogin} onPress={this._showDateTimePicker}>
+               <Text style={styles.text}>Edit Date</Text>
+        </TouchableOpacity> 
         <Text style={styles.label} > Description </Text>
         <TextInput style={styles.input} editable={true} numberOfLines={4}
         onChangeText={(text) => this.setState({desc:text})}
         value={this.state.desc}/>
-        <TouchableOpacity style={styles.btnLogin} onPress={()=>this.props.navigation.navigate('Signup')}>
+        <TouchableOpacity style={styles.btnLogin} onPress={this.submitEdit.bind(this)}>
                <Text style={styles.text}>SUBMIT</Text>
         </TouchableOpacity> 
+        <View style={{height:20}}></View>
         </ScrollView>
         )
     }
@@ -141,10 +152,12 @@ const styles =StyleSheet.create({
     },
     btnLogin:{
         width:WIDTH-120,
+        borderRadius:10,
         height:45,
         borderRadius:25,
         backgroundColor:'rgba(127,127,127,0.7)',
         marginTop:15,
+        alignSelf:"center",
     },
     text:{
         fontSize:26,

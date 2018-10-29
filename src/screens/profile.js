@@ -38,9 +38,9 @@ export default class ProfileScreen extends Component {
             <Text style={styles.cText}>Username:{this.state.uname}</Text>
             <Text style={styles.cText}>Email:{this.state.email}</Text>
             <Text style={styles.cText}>Budget:{this.state.budget}</Text>
-            <TouchableOpacity style={styles.btn} onPress={()=>{console.log("shit");}}>
+            {/* <TouchableOpacity style={styles.btn} onPress={()=>{console.log("shit");}}>
                     <Text style={styles.text}>EDIT BUDGET</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity style={styles.btn} onPress={()=>{this.props.navigation.navigate('Login')}}>
                     <Text style={styles.text}>LOGOUT</Text>
             </TouchableOpacity>

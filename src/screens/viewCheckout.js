@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {AsyncStorage,TextInput,Button,Image, FlatList, Dimensions, TouchableOpacity, Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
-import DateTimePicker from 'react-native-modal-datetime-picker';
 import axios from "axios";
 import url from "../../index";
 
@@ -27,18 +26,6 @@ export default class viewCheckoutScreen extends Component{
     console.log("edit id",this.props.navigation.state.params.c_id);
     this.getCheckout();
     }
-
-    _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
-
-    _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
-  
-    _handleDatePicked = (sDate) => {
-      console.log('A date has been picked: ', sDate);
-      this.setState({
-          date:sDate,
-      })
-      this._hideDateTimePicker();
-    };
 
     getCheckout = () =>{
         axios.get(url+"/api/checkout",{
@@ -105,7 +92,6 @@ export default class viewCheckoutScreen extends Component{
         onChangeText={(text) => this.setState({total:text})}
         value={this.state.total}/>
         <Text style={styles.label}>Date:{this.state.date}</Text>
-        <Button onPress={this._showDateTimePicker} title="Edit Date" color="orange"/>
         <Text style={styles.label} > Description </Text>
         <TextInput style={styles.input} editable={false} numberOfLines={4}
         onChangeText={(text) => this.setState({desc:text})}
