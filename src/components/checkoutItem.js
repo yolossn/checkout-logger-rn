@@ -52,7 +52,7 @@ export default class CheckoutItem extends Component {
                 <View style={styles.options}>
                     <Button style={styles.bton} title="View" color="orange" onPress={() => {this.props.nav('viewCheck',{user:this.props.user,c_id:this.props.id})}}/>
                     <Button style={styles.bton} title="Edit" color="orange" onPress={() => {this.props.nav('editCheck',{user:this.props.user,c_id:this.props.id})}}/>
-                    <Button style={styles.bton} title="Delete" color="orange" onPress={this.delete} />
+                    {/* <Button style={styles.bton} title="Delete" color="orange" onPress={this.delete} /> */}
                 </View>
 )
         }

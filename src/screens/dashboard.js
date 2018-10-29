@@ -72,11 +72,11 @@ export default class DashboardScreen extends Component {
     }
 
     loadData=()=>{
-      if(this.state.load)
+      if(this.state.load && this.state.checkouts==="")
       {
         return(<View style={{alignSelf:"center"}}><Text>Oh Snap ! No Data found</Text></View>)
       }
-      else{
+      else if (this.state.load && this.state.checkouts!==""){
         return(
         <View>
         <View style={styles.budget}>
