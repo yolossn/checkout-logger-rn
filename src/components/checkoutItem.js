@@ -29,7 +29,7 @@ export default class CheckoutItem extends Component {
         console.log("show of", this.state.show);
     }
     delete=()=>{
-        console.log(this.props.user,"\n",this.props.c_id);
+        console.log(this.props.user,"\n",this.props.id);
         console.log(this.props);
         axios.get(url+"/api/checkout-delete",{
             params:{
@@ -39,6 +39,7 @@ export default class CheckoutItem extends Component {
         })
         .then((resp)=>{
             console.log(resp);
+            this.props.onDelete();
         })
         .catch(err=>{
             console.log(err);
@@ -52,7 +53,7 @@ export default class CheckoutItem extends Component {
                 <View style={styles.options}>
                     <Button style={styles.bton} title="View" color="orange" onPress={() => {this.props.nav('viewCheck',{user:this.props.user,c_id:this.props.id})}}/>
                     <Button style={styles.bton} title="Edit" color="orange" onPress={() => {this.props.nav('editCheck',{user:this.props.user,c_id:this.props.id})}}/>
-                    {/* <Button style={styles.bton} title="Delete" color="orange" onPress={this.delete} /> */}
+                    <Button style={styles.bton} title="Delete" color="orange" onPress={this.delete.bind(this)} />
                 </View>
 )
         }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {ActivityIndicator, AsyncStorage,Image, FlatList, Dimensions, TouchableOpacity, Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
 import axios from "axios";
 import Icon from 'react-native-vector-icons/Ionicons';
+import Icons from 'react-native-vector-icons/Entypo';
 import ImagePicker from 'react-native-image-picker';
 var RNFS = require('react-native-fs');
 //components
@@ -39,6 +40,9 @@ export default class CheckoutListScreen extends Component {
 
   getCheckout=() =>{
     console.log("retrive checkouts using id:",this.state.id);
+    this.setState({
+      load:true,
+    })
     axios.get(url+"/api/checkout-all",{
       params:{_id:this.state.id},
       // _id:this.state.id,
@@ -55,6 +59,7 @@ export default class CheckoutListScreen extends Component {
       console.log(err.response);
             this.setState({
           load:false,
+          checkouts:""
         })
       if(err.response.data.message=="No checkouts found")
       {
@@ -123,7 +128,7 @@ export default class CheckoutListScreen extends Component {
 <FlatList 
         data={this.state.checkouts}
         renderItem={(x)=>
-        <CheckoutItem user={this.state.id} nav={this.props.navigation.navigate} id={x.item._id} title={x.item.title} total={x.item.total} imURL={{ uri: x.item.bill_picture }} />          
+        <CheckoutItem onDelete={this.getCheckout} user={this.state.id} nav={this.props.navigation.navigate} id={x.item._id} title={x.item.title} total={x.item.total} imURL={{ uri: x.item.bill_picture }} />          
         }
         keyExtractor ={(item,index)=>index.toString()}
         />
@@ -136,9 +141,10 @@ export default class CheckoutListScreen extends Component {
    else
    {
     return(
-    <View>
-    <View style={{height:HEIGHT-100 ,width:WIDTH,alignSelf:"center"}}> 
-    <Text>Oh Snap No checkouts Found</Text>
+    <View style={{height:HEIGHT-100,alignContent:"center",justifyContent:"center"}}>
+    <View style={{paddingTop:150,width:WIDTH,alignSelf:"center"}}> 
+    <Text style={{alignSelf:"center"}}>Oh Snap No checkouts Found</Text>
+    <Icons style={{alignSelf:"center"}} name={"emoji-sad"} size={60} color={"orange"}/>
    </View>
            <TouchableOpacity style={styles.btnNewCheckout} onPress={this.newCheckout.bind(this)}>
            <Icon style={styles.inputIcon} name={'ios-add'} size={40} color={'rgba(255,255,255,0.7)'} />
@@ -155,23 +161,6 @@ export default class CheckoutListScreen extends Component {
           <View><Text style={styles.title}>Checkouts</Text></View>
           {this.loadData()}
         </View>
-        
-        {/* <ScrollView>
-          <CheckoutItem id={4} title={"Dominos"} total={150} imURL={{ uri: "https://user-images.githubusercontent.com/5842874/37030334-921b1d5a-2175-11e8-8736-5be0cc4ff777.png" }} />          
-          <CheckoutItem id={4} title={"Dominos"} total={150} imURL={{ uri: "https://user-images.githubusercontent.com/5842874/37030334-921b1d5a-2175-11e8-8736-5be0cc4ff777.png" }} />
-          <CheckoutItem id={4} title={"Dominos"} total={150} imURL={{ uri: "https://user-images.githubusercontent.com/5842874/37030334-921b1d5a-2175-11e8-8736-5be0cc4ff777.png" }} />
-          <CheckoutItem id={4} title={"Dominos"} total={150} imURL={{ uri: "https://user-images.githubusercontent.com/5842874/37030334-921b1d5a-2175-11e8-8736-5be0cc4ff777.png" }} />
-          <CheckoutItem id={4} title={"Dominos"} total={150} imURL={{ uri: "https://user-images.githubusercontent.com/5842874/37030334-921b1d5a-2175-11e8-8736-5be0cc4ff777.png" }} />
-          <CheckoutItem id={4} title={"Dominos"} total={150} imURL={{ uri: "https://user-images.githubusercontent.com/5842874/37030334-921b1d5a-2175-11e8-8736-5be0cc4ff777.png" }} />
-          <CheckoutItem id={4} title={"Dominos"} total={150} imURL={{ uri: "https://user-images.githubusercontent.com/5842874/37030334-921b1d5a-2175-11e8-8736-5be0cc4ff777.png" }} />
-          <CheckoutItem id={4} title={"Dominos"} total={150} imURL={{ uri: "https://user-images.githubusercontent.com/5842874/37030334-921b1d5a-2175-11e8-8736-5be0cc4ff777.png" }} />
-          <CheckoutItem id={4} title={"Dominos"} total={150} imURL={{ uri: "https://user-images.githubusercontent.com/5842874/37030334-921b1d5a-2175-11e8-8736-5be0cc4ff777.png" }} />
-          <CheckoutItem id={4} title={"Dominos"} total={150} imURL={{ uri: "https://user-images.githubusercontent.com/5842874/37030334-921b1d5a-2175-11e8-8736-5be0cc4ff777.png" }} />
-          <CheckoutItem id={4} title={"Dominos"} total={150} imURL={{ uri: "https://user-images.githubusercontent.com/5842874/37030334-921b1d5a-2175-11e8-8736-5be0cc4ff777.png" }} />
-
-        </ScrollView> */}
-
-
       </View>
 
     );

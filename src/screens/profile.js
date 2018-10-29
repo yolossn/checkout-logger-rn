@@ -41,7 +41,7 @@ export default class ProfileScreen extends Component {
             {/* <TouchableOpacity style={styles.btn} onPress={()=>{console.log("shit");}}>
                     <Text style={styles.text}>EDIT BUDGET</Text>
             </TouchableOpacity> */}
-            <TouchableOpacity style={styles.btn} onPress={()=>{this.props.navigation.navigate('Login')}}>
+            <TouchableOpacity style={styles.btn} onPress={()=>{AsyncStorage.clear();this.props.navigation.navigate('Login')}}>
                     <Text style={styles.text}>LOGOUT</Text>
             </TouchableOpacity>
             <View style={{height:40}}>

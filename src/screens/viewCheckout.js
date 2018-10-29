@@ -45,7 +45,7 @@ export default class viewCheckoutScreen extends Component{
                     desc:String(resp.data.checkout.description),
                     loc:String(resp.data.checkout.location),
                     uri:String(resp.data.checkout.bill_picture),
-                    date:String(resp.data.checkout.data),
+                    date:String(resp.data.checkout.date),
                     load:false
                 })
             }
@@ -83,7 +83,7 @@ export default class viewCheckoutScreen extends Component{
             return(<ActivityIndicator size="large" color="orange" />)
         else{
             return(
-                <ScrollView>
+                <ScrollView style={{padding:5,borderWidth:2,borderColor:"orange"}}>
                 <Text style={styles.label}>Title: </Text>
                 <TextInput style={styles.input}
                 onChangeText={(text) => this.setState({title:text})}  editable={false}
@@ -124,7 +124,8 @@ const styles =StyleSheet.create({
         margin:10, 
         borderColor: 'gray', 
         borderWidth: 1,
-        alignSelf:"center"
+        alignSelf:"center",
+        borderRadius:8,
     },
     label:{
         fontSize:16,
