@@ -15,7 +15,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import LoginScreen from './src/screens/login';
 import SignupScreen from './src/screens/signup';
 import NewCheckout from './src/screens/newCheckout';
-import DashboardScreen from './src/screens/dashboard';
+// import DashboardScreen from './src/screens/dashboard';
 import ProfileScreen from './src/screens/profile';
 import CheckoutListScreen from './src/screens/checkoutList';
 import editCheckoutScreen from './src/screens/editCheckout';
@@ -61,14 +61,14 @@ const AppStackNav=createStackNavigator({
         )
       }
     },
-    DashBoard:{screen:DashboardScreen,
-      navigationOptions:{
-        tabBarLabel:'Dashboard',
-        tabBarIcon:({tintColor})=>(
-          <Icon name="assessment" color={tintColor} size={24}/>
-        )
-      }
-    },
+    // DashBoard:{screen:DashboardScreen,
+    //   navigationOptions:{
+    //     tabBarLabel:'Dashboard',
+    //     tabBarIcon:({tintColor})=>(
+    //       <Icon name="assessment" color={tintColor} size={24}/>
+    //     )
+    //   }
+    // },
       Settings:{screen:ProfileScreen,
       navigationOptions:{
         tabBarLabel:'Profile',
