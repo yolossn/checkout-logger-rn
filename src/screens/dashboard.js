@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
-import {Dimensions,ProgressBarAndroid,Platform, StyleSheet, Text,ScrollView ,View} from 'react-native';
+import {Dimensions,ActivityIndicator,TouchableOpacity,Platform, StyleSheet, Text,ScrollView ,View} from 'react-native';
 import  {PieChart,BarChart, ProgressChart} from 'react-native-chart-kit';
 import axios from "axios"; 
+import url from "../../index";
+// const url="http://104.196.11.112:8080";
 
 const { width: WIDTH } = Dimensions.get('window');
+const { height: HEIGHT } = Dimensions.get('window');
 
     const chartConfig={
      backgroundColor:"#f0f0f0",
@@ -30,10 +33,11 @@ export default class DashboardScreen extends Component {
       id:"",
       cData:"",
       load:true,
+      checkouts:"",
       }
       this._user().
       then((val)=>{
-        console.log("shit",val);
+        console.log("dashboard shit",val);
         this.setState({
           id:val,
           checkouts:""
@@ -42,15 +46,22 @@ export default class DashboardScreen extends Component {
       })
       .catch((err)=>{
         console.log("caant geet info ");
+        this.setState(
+          {
+            id:"5bd7361629e2c11513bd146e",
+          }
+        )
       })
     }
     _user=async()=>{
-      var val=await AsyncStorage.getItem('user');
+      console.log("calling dashboard get values");
+      var val=await AsyncStorage.getItem('_id');
       val=JSON.parse(val);
       return val;
     }
     getCheckout=() =>{
       console.log("dashboard reuet",this.state.id);
+      this.setState({load:true,checkouts:""});
       axios.get(url+"/api/checkout-all",{
         params:{_id:this.state.id},
         // _id:this.state.id,
@@ -67,6 +78,7 @@ export default class DashboardScreen extends Component {
         console.log(err.response);
               this.setState({
             load:false,
+            checkouts:"",
           })
       })
     }
@@ -75,6 +87,13 @@ export default class DashboardScreen extends Component {
       if(this.state.load && this.state.checkouts==="")
       {
         return(<View style={{alignSelf:"center"}}><Text>Oh Snap ! No Data found</Text></View>)
+      }
+      else if(!this.state.load)
+      {
+           return(
+    <View style={{height:HEIGHT-100}}> 
+     <ActivityIndicator size="large" color="orange" />
+    </View>)
       }
       else if (this.state.load && this.state.checkouts!==""){
         return(
@@ -107,7 +126,9 @@ export default class DashboardScreen extends Component {
       return (
           <ScrollView style={{width:"100%"}}>
         <View style={styles.view}>
+          <TouchableOpacity onPress={this.getCheckout.bind(this)}>
           <View><Text style={styles.title}>Dashboard</Text></View>
+          </TouchableOpacity>
         </View>
           {this.loadData()}
         </ScrollView>

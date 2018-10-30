@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {ActivityIndicator, AsyncStorage,Image, FlatList, Dimensions, TouchableOpacity, Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
+import {ActivityIndicator, RefreshControl,AsyncStorage,Image, FlatList, Dimensions, TouchableOpacity, Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
 import axios from "axios";
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icons from 'react-native-vector-icons/Entypo';
@@ -21,6 +21,7 @@ export default class CheckoutListScreen extends Component {
       id:"",
       cData:"",
       load:true,
+      refreshing: false,
     }
     this._user()
     .then((val)=>{
@@ -70,6 +71,14 @@ export default class CheckoutListScreen extends Component {
     })
   }
   
+  
+  _onRefresh = () => {
+    this.setState({refreshing: true});
+    fetchData().then(() => {
+      this.setState({refreshing: false});
+    });
+  }
+
     newCheckout = () => {
     const options = {
       title: 'New Checkout',
@@ -124,7 +133,7 @@ export default class CheckoutListScreen extends Component {
    else if(this.state.checkouts!=="")
    {
      return(
-<View>       
+<View style={{marginTop:10,height:HEIGHT-250,alignContent:"center",justifyContent:"center"}}>       
 <FlatList 
         data={this.state.checkouts}
         renderItem={(x)=>
@@ -141,11 +150,11 @@ export default class CheckoutListScreen extends Component {
    else
    {
     return(
-    <View style={{height:HEIGHT-100,alignContent:"center",justifyContent:"center"}}>
-    <View style={{paddingTop:150,width:WIDTH,alignSelf:"center"}}> 
+    <View style={{height:HEIGHT-250,alignContent:"center",justifyContent:"center"}}>
+    <ScrollView style={{width:WIDTH,alignSelf:"center"}}> 
     <Text style={{alignSelf:"center"}}>Oh Snap No checkouts Found</Text>
     <Icons style={{alignSelf:"center"}} name={"emoji-sad"} size={60} color={"orange"}/>
-   </View>
+   </ScrollView>
            <TouchableOpacity style={styles.btnNewCheckout} onPress={this.newCheckout.bind(this)}>
            <Icon style={styles.inputIcon} name={'ios-add'} size={40} color={'rgba(255,255,255,0.7)'} />
          </TouchableOpacity>
@@ -156,10 +165,18 @@ export default class CheckoutListScreen extends Component {
 
   render() {
     return (
-      <View >
+      <View>
+        {/* <RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh}/> */}
         <View style={styles.view}>
-          <View><Text style={styles.title}>Checkouts</Text></View>
+          <View>
+                <TouchableOpacity onPress={this.getCheckout.bind(this)}>
+                    {/* <Icon color={"orange"} name={"ios-refresh"} size={30}/> */}
+                    <Text style={styles.title}>Checkouts</Text>
+                </TouchableOpacity>
+          </View>
+          <View>
           {this.loadData()}
+          </View>
         </View>
       </View>
 
@@ -195,7 +212,7 @@ const styles = StyleSheet.create(
       backgroundColor: "red",
       borderRadius: 100,
       position: 'absolute',
-      bottom: 70,
+      bottom: 90,
       right: 20,
     },
 
